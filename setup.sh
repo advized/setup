@@ -5,8 +5,6 @@
 # Install git
 sudo apt-get install -y git
 
-
-
 # Install Apache2
 sudo apt-get install apache2
 
@@ -36,6 +34,16 @@ sudo a2ensite blog.advized.org
 # export APACHE_LOG_DIR=/var/log/apache2
 # in /etc/apache2/envvars
 sudo /etc/init.d/apache2 reload
+
+# Install node.js (only used for as js debugger for now) 
+sudo apt-get install -y python-software-properties python g++ make
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install -y nodejs
+sudo npm install -g jshint
+
+
+
 
 
 # Install nvm: node-version manager
