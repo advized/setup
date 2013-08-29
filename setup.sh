@@ -42,6 +42,28 @@ sudo apt-get update
 sudo apt-get install -y nodejs
 sudo npm install -g jshint
 
+# Install rvm (ruby version manager)
+# \ ensure that proper curl command is launced and not any alias
+\curl -L https://get.rvm.io | bash
+echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+. ~/.bashrc
+rvm get head && rvm reload
+
+# Install ruby
+rvm install 1.9.3
+
+# Create gemset (here rails3tutorial2nd)
+rvm use 1.9.3@rails3tutorial2nd --create --default
+
+# Ensure 1.8.24 used
+gem update --system 1.8.24
+
+# Specify that no local doc is required
+# -e enable interpretation of backslash escapes
+echo -e "install: --no-rdoc --no-ri\nupdate: --no-rdoc --no-ri" > .gemrc
+
+# Install rails 3.2.3 gem
+gem install rails -v 3.2.3
 
 
 
