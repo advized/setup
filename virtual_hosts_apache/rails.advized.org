@@ -2,7 +2,7 @@
 	ServerName rails.advized.org
 	ServerAdmin webmaster@localhost
 
-	DocumentRoot /var/www/rails.advized.org
+	DocumentRoot /var/www/rails.advized.org/public
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None

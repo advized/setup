@@ -42,6 +42,24 @@ sudo apt-get update
 sudo apt-get install -y nodejs
 sudo npm install -g jshint
 
+# Install PostgreSQL
+echo "deb http://apt.postgresql.org/pub/repos/apt/ lucid-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+  sudo apt-key add -
+
+sudo apt-get update
+sudo apt-get install postgresql-9.2
+sudo apt-get install postgresql-contrib-9.2
+sudo passwd postgres # Update postgres default password
+su postgres
+psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'changeme';" # replace change me by your password
+
+
+
+
+
+
 # Install rvm (ruby version manager)
 # \ ensure that proper curl command is launced and not any alias
 \curl -L https://get.rvm.io | bash
