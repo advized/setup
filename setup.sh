@@ -5,16 +5,19 @@
 # Install git
 sudo apt-get install -y git
 
+
 # Install Apache2
-sudo apt-get install apache2
+# sudo apt-get install apache2
+
 
 # Sym link virtual hosts Apache config files
-cd /etc/apache2/sites-available
-sudo ln -s ~/setup/virtual_hosts_apache/advized.org
-sudo ln -s ~/setup/virtual_hosts_apache/backbone.advized.org
-sudo ln -s ~/setup/virtual_hosts_apache/bootstrap.advized.org
-sudo ln -s ~/setup/virtual_hosts_apache/course.advized.org
-sudo ln -s ~/setup/virtual_hosts_apache/blog.advized.org
+# cd /etc/apache2/sites-available
+# sudo ln -s ~/setup/virtual_hosts_apache/advized.org
+# sudo ln -s ~/setup/virtual_hosts_apache/backbone.advized.org
+# sudo ln -s ~/setup/virtual_hosts_apache/bootstrap.advized.org
+# sudo ln -s ~/setup/virtual_hosts_apache/course.advized.org
+# sudo ln -s ~/setup/virtual_hosts_apache/blog.advized.org
+
 
 # Sym link var/www to sites 
 cd /var/www
@@ -24,16 +27,18 @@ sudo ln -s ~/sites/bootstrap.advized.org
 sudo ln -s ~/sites/course.advized.org
 sudo ln -s ~/sites/blog.advized.org
 
+
 # Enable and reload sites 
-sudo a2ensite advized.org
-sudo a2ensite backbone.advized.org
-sudo a2ensite bootstrap.advized.org
-sudo a2ensite course.advized.org
-sudo a2ensite blog.advized.org
+# sudo a2ensite advized.org
+# sudo a2ensite backbone.advized.org
+# sudo a2ensite bootstrap.advized.org
+# sudo a2ensite course.advized.org
+# sudo a2ensite blog.advized.org
 # Take care, I had to explicitly define APACHE_LOG_DIR 
 # export APACHE_LOG_DIR=/var/log/apache2
 # in /etc/apache2/envvars
-sudo /etc/init.d/apache2 reload
+# sudo /etc/init.d/apache2 reload
+
 
 # Install node.js (only used for as js debugger for now) 
 sudo apt-get install -y python-software-properties python g++ make
@@ -41,6 +46,7 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install -y nodejs
 sudo npm install -g jshint
+
 
 # Install PostgreSQL
 echo "deb http://apt.postgresql.org/pub/repos/apt/ lucid-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
@@ -54,10 +60,6 @@ sudo apt-get install postgresql-contrib-9.2
 sudo passwd postgres # Update postgres default password
 su postgres
 psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'changeme';" # replace change me by your password
-
-
-
-
 
 
 # Install rvm (ruby version manager)
@@ -82,6 +84,23 @@ echo -e "install: --no-rdoc --no-ri\nupdate: --no-rdoc --no-ri" > .gemrc
 
 # Install rails 3.2.3 gem
 gem install rails -v 3.2.3
+
+
+# Install nginx web server
+sudo apt-get install nginx
+
+
+# Install passenger gem to deploy rails through apache or nginx
+gem install passenger
+
+# Run passenger-install-nginx-module and follow instructions
+# Config virtual hosts (refer to setup/nginx)
+# Create an init script to manage nginx
+# wget -O init-deb.sh http://library.linode.com/assets/660-init-deb.sh
+# mv init-deb.sh /etc/init.d/nginx
+# chmod +x /etc/init.d/nginx
+# /usr/sbin/update-rc.d -f nginx defaults
+
 
 
 
