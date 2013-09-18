@@ -48,7 +48,7 @@ sudo apt-get install -y nodejs
 sudo npm install -g jshint
 
 
-# Install PostgreSQL
+# Install PostgreSQL 9.2
 echo "deb http://apt.postgresql.org/pub/repos/apt/ lucid-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
 
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
@@ -57,10 +57,47 @@ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
 sudo apt-get update
 sudo apt-get install postgresql-9.2
 sudo apt-get install postgresql-contrib-9.2
+sudo apt-get install postgresql-server-dev-9.2 # Required for PostGIS
 sudo passwd postgres # Update postgres default password
 su postgres
 psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'changeme';" # replace change me by your password
+sudo usermod -aG sudo postgres # will allow to manage /etc/init.d/postgresql 
 
+# Install PostGIS 2 from sources
+
+# Install dependencies
+sudo apt-get install libxml2-dev
+# Geos: required for geometry function support
+cd ~/sources
+wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+tar -jxvf geos-3.4.2.tar.bz2
+cd geos-3.4.2
+./configure
+make
+sudo make install
+# Install GDAL/OGR
+cd ~/sources
+wget http://download.osgeo.org/gdal/1.10.1/gdal-1.10.1.tar.gz
+tar xzf gdal-1.10.1.tar.gz
+cd gdal-1.10.1
+./configure
+make
+sudo make install
+# Install JSON-C: required for GEOJSON support
+sudo apt-get install libjson0 python-simplejson libjson0-dev
+#  Install PROJ
+apt-get install proj-bin proj-data libproj-dev
+
+# Finally install PostGIS
+cd ~/sources
+wget http://download.osgeo.org/postgis/source/postgis-2.0.2.tar.gz
+tar xzf postgis-2.0.2.tar.gz
+cd postgis-2.0.2
+./configure --with-raster --with-topology
+make
+sudo make install
+
+TBD still create postgis template, ...
 
 # Install rvm (ruby version manager)
 # \ ensure that proper curl command is launced and not any alias
@@ -75,7 +112,7 @@ rvm install 1.9.3
 # Create gemset (here rails3tutorial2nd)
 rvm use 1.9.3@rails3tutorial2nd --create --default
 
-# Ensure 1.8.24 used
+# Ensure 1.8.24 version of gem is used
 gem update --system 1.8.24
 
 # Specify that no local doc is required
@@ -93,7 +130,7 @@ sudo apt-get install nginx
 # Install passenger gem to deploy rails through apache or nginx
 gem install passenger
 
-# Run passenger-install-nginx-module and follow instructions
+# Run passenger-install-nginx-module and follow instructions (will compiled/install nginx with passenger)
 # Config virtual hosts (refer to setup/nginx)
 # Create an init script to manage nginx
 # wget -O init-deb.sh http://library.linode.com/assets/660-init-deb.sh
