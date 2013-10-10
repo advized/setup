@@ -47,6 +47,13 @@ sudo apt-get update
 sudo apt-get install -y nodejs
 sudo npm install -g jshint
 
+# Install topojson package
+sudo npm install -g topojson
+
+
+########################
+# PostreSQL and PostGIS
+########################
 
 # Install PostgreSQL 9.2
 echo "deb http://apt.postgresql.org/pub/repos/apt/ lucid-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
@@ -99,6 +106,8 @@ sudo make install
 
 TBD still create postgis template, ...
 
+
+
 # Install rvm (ruby version manager)
 # \ ensure that proper curl command is launced and not any alias
 \curl -L https://get.rvm.io | bash
@@ -138,6 +147,32 @@ gem install passenger
 # chmod +x /etc/init.d/nginx
 # /usr/sbin/update-rc.d -f nginx defaults
 
+
+#####################
+# Python environement
+#####################
+
+# Required to install psycopg2 (requ module for PostgreSQL)
+sudo apt-get install libpq-dev python-dev
+
+# Install Python Setuptools
+wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py
+sudo python ez_setup.py
+
+# Install Python pip
+wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+sudo python get-pip.py
+
+# Install virtualenv
+sudo pip install virtualenv
+
+# Install Django framework
+pip install django
+
+# Install CKAN
+# http://docs.ckan.org/en/latest/install-from-source.html
+# Install dependencies
+sudo apt-get install solr-jetty openjdk-6-jdk
 
 
 
